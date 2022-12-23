@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ResponsiveService } from './responsive/responsive.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-responsiv-design';
+  constructor(public responsiveService: ResponsiveService) {}
 }
