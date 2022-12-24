@@ -36,11 +36,12 @@ export class ResponsiveService {
       ])
       .subscribe((result: any) => {
         for (const query of Object.keys(result.breakpoints)) {
-        if (result.breakpoints[query]) {
-          this._screenSize = this.screenSizeBreakpoints.get(query) ?? ScreenSizeType.Unknown;
+          if (result.breakpoints[query]) {
+            this._screenSize = this.screenSizeBreakpoints.get(query) ?? ScreenSizeType.Unknown;
+          }
         }
       }
-    });
+    );
   }
 
   public orientationPortrait(): boolean {
@@ -63,14 +64,14 @@ export class ResponsiveService {
     return this._deviceType === DeviceType.Handset;
   }
 
-  private _orientation = OrientationType.Unknown;
-  public get orientation(): OrientationType {
-    return this._orientation;
-  }
-
   private _deviceType = DeviceType.Unknown;
   public get deviceType(): DeviceType {
     return this._deviceType;
+  }
+  
+  private _orientation = OrientationType.Unknown;
+  public get orientation(): OrientationType {
+    return this._orientation;
   }
 
   private readonly deviceAndOrientation = new Map([
@@ -84,36 +85,37 @@ export class ResponsiveService {
 
   private checkDeviceTypeAndOrientation(breakpointObserver: BreakpointObserver): void {
     breakpointObserver
-    .observe([
-      Breakpoints.HandsetPortrait,
-      Breakpoints.HandsetLandscape,
-      Breakpoints.WebPortrait,
-      Breakpoints.WebLandscape,
-      Breakpoints.TabletPortrait,
-      Breakpoints.TabletLandscape,
-    ])
-    .subscribe((result: any) => {
-      let orientationTypes = Object.keys(OrientationType).map(key => key);
-      let deviceTypes = Object.keys(DeviceType).map(key => key);
+      .observe([
+        Breakpoints.HandsetPortrait,
+        Breakpoints.HandsetLandscape,
+        Breakpoints.WebPortrait,
+        Breakpoints.WebLandscape,
+        Breakpoints.TabletPortrait,
+        Breakpoints.TabletLandscape,
+      ])
+      .subscribe((result: any) => {
+        let orientationTypes = Object.keys(OrientationType).map(key => key);
+        let deviceTypes = Object.keys(DeviceType).map(key => key);
 
-      for (const query of Object.keys(result.breakpoints)) {
-        if (result.breakpoints[query]) {
-          let type = this.deviceAndOrientation.get(query) ?? BreakpointType.Unknown;
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            let type = this.deviceAndOrientation.get(query) ?? BreakpointType.Unknown;
 
-          orientationTypes.forEach(element => {
-            if (type.indexOf(element) !== -1) {
-              this._orientation = element as OrientationType;
-            }
-          });
+            orientationTypes.forEach(element => {
+              if (type.indexOf(element) !== -1) {
+                this._orientation = element as OrientationType;
+              }
+            });
 
-          deviceTypes.forEach(element => {
-            if (type.indexOf(element) !== -1) {
-              this._deviceType = element as DeviceType;
-            }
-          });
+            deviceTypes.forEach(element => {
+              if (type.indexOf(element) !== -1) {
+                this._deviceType = element as DeviceType;
+              }
+            });
+          }
         }
       }
-    });
+    );
   }
 
 }
